@@ -6,15 +6,13 @@ def get_input() -> Counter[str]:
         return Counter([line.strip() for line in f.readlines()])
 
 
-def part1() -> int:
+def part1(data: Counter[str]) -> int:
     SHAPE_SCORES = {"X": 1, "Y": 2, "Z": 3}
     WINNING_CASES = {"A Y", "B Z", "C X"}
     DRAW_CASES = {"A X", "B Y", "C Z"}
-    input = get_input()
-
     score = 0
 
-    for k, v in input.items():
+    for k, v in data.items():
         score += SHAPE_SCORES[k[-1]] * v
         if k in DRAW_CASES:
             score += 3 * v
@@ -24,15 +22,13 @@ def part1() -> int:
     return score
 
 
-def part2() -> int:
+def part2(data: Counter[str]) -> int:
     SHAPE_SCORES = {"A": 1, "B": 2, "C": 3}
     WINNING_CASES = {"A": "B", "B": "C", "C": "A"}
     LOSING_CASES = {v: k for k, v in WINNING_CASES.items()}
-    input = get_input()
-
     score = 0
 
-    for k, v in input.items():
+    for k, v in data.items():
         if k[-1] == "X":
             score += SHAPE_SCORES[LOSING_CASES[k[0]]] * v
         elif k[-1] == "Y":
@@ -44,5 +40,6 @@ def part2() -> int:
 
 
 if __name__ == "__main__":
-    print(f"Part 1: {part1()}")
-    print(f"Part 2: {part2()}")
+    data = get_input()
+    print(f"Part 1: {part1(data)}")
+    print(f"Part 2: {part2(data)}")

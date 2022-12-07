@@ -6,38 +6,39 @@ def get_input() -> list[str]:
         return f.read().splitlines()
 
 
-def part1() -> int:
-    rucksacks = get_input()
+def part1(rucksacks: list[str]) -> int:
+    duplicates = [
+        set(rucksack[: len(rucksack) // 2]).intersection(
+            set(rucksack[len(rucksack) // 2 :])
+        )
+        for rucksack in rucksacks
+    ]
 
-    total = 0
-
-    for rucksack in rucksacks:
-        middle = len(rucksack) // 2
-        duplicates = set(rucksack[:middle]).intersection(set(rucksack[middle:]))
-
-        for duplicate in duplicates:
-            total += ascii_letters.index(duplicate) + 1
-
-    return total
+    return sum(
+        [
+            ascii_letters.index(duplicate) + 1
+            for duplicate_set in duplicates
+            for duplicate in duplicate_set
+        ]
+    )
 
 
-def part2() -> int:
-    rucksacks = get_input()
+def part2(rucksacks: list[str]) -> int:
     rucksacks_by_group = [rucksacks[i : i + 3] for i in range(0, len(rucksacks), 3)]
 
-    total = 0
-
-    for group in rucksacks_by_group:
-        total += (
+    return sum(
+        [
             ascii_letters.index(
                 set(group[0]).intersection(set(group[1]), set(group[2])).pop()
             )
             + 1
-        )
-
-    return total
+            for group in rucksacks_by_group
+        ]
+    )
 
 
 if __name__ == "__main__":
-    print(f"Part 1: {part1()}")
-    print(f"Part 2: {part2()}")
+    data = get_input()
+
+    print(f"Part 1: {part1(data)}")
+    print(f"Part 2: {part2(data)}")

@@ -3,7 +3,7 @@ def get_input() -> str:
         return f.readline()
 
 
-def get_unique_str_index(data: str, size: int) -> int:
+def get_unique_str_index(data: str, size: int) -> int | None:
     unique_str: list[str] = []
 
     for i, char in enumerate(data):
@@ -15,14 +15,14 @@ def get_unique_str_index(data: str, size: int) -> int:
 
         unique_str.append(char)
 
-    return -1
+    return None
 
 
-def part1(data: str) -> int:
+def part1(data: str) -> int | None:
     return get_unique_str_index(data, 4)
 
 
-def part2(data: str) -> int:
+def part2(data: str) -> int | None:
     return get_unique_str_index(data, 14)
 
 
